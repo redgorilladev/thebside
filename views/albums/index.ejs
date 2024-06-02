@@ -1,0 +1,21 @@
+<h2>Search Albums</h2>
+<form action="/albums" method="GET">
+    <div>
+        <label>Title</label>
+        <input type="text" name="title" value="<%= searchoptions.title %>">
+        <button type="submit">Search</button>
+    </div>
+    <div>
+        <label>Released After</label>
+        <input type="date" name="releasedAfter" value="<%= searchoptions.releasedAfter %>">
+    </div>
+    <div>
+        <label>Released Before</label>
+        <input type="date" name="releasedBefore" value="<%= searchoptions.releasedBefore %>">
+    </div>
+</form>
+<div>
+    <% albums.forEach(album => { %>
+        <img src="<%= album.coverImagePath %>" height="150" width="100">
+    <% }) %>
+</div>

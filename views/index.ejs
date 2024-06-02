@@ -1,1 +1,6 @@
-Middle
+<h2>Recently Added</h2>
+<div>
+    <% albums.forEach(album => { %>
+        <img src="<%= album.coverImagePath %>" height="150" width="100">
+    <% }) %>
+</div>
