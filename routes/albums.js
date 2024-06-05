@@ -1,18 +1,8 @@
 const express = require('express')
 const router = express.Router()
-const multer = require('multer')
-const path = require('path')
-const fs = require('fs')
 const Album = require('../models/album')
-const uploadPath = path.join('public', Album.coverImageBasePath)
-const imageMimeTypes = ['image/jpeg', 'image/png', 'image/gif']
 const Artist = require('../models/artist')
-const upload = multer({
-    dest: uploadPath,
-    fileFilter: (req, file, callback) => {
-        callback(null, imageMimeTypes.includes(file.mimetype))
-    }
-})
+const imageMimeTypes = ['image/jpeg', 'image/png', 'image/gif']
 
 // all albums route
 router.get('/',  async (req, res) => {
@@ -44,25 +34,21 @@ router.get('/new', async (req, res) =>{
 
 
 // create album route
-router.post('/', upload.single('cover'), async (req, res) => {
-    const fileName = req.file != null ? req.file.filename : null
+router.post('/', async (req, res) => {
     const album = new Album({
         title: req.body.title,
         artist: req.body.artist,
         releaseDate: new Date(req.body.releaseDate),
         tracks: req.body.tracks,
-        coverImageName: fileName,
         description: req.body.description
     })
+    saveCover(album, req.body.cover)
 
     try {
         const newAlbum = await album.save()
         // res.redirect(`albums/${newAlbum.id}`)
         res.redirect(`albums`)
     } catch {
-        if (album.coverImageName != null) {
-            removeAlbumCover(album.coverImageName)
-        }
         renderNewPage(res, album, true)
     }
 })
@@ -82,10 +68,13 @@ async function renderNewPage(res, album, hasError = false) {
     }
 }
 
-function removeAlbumCover(fileName) {
-    fs.unlink(path.join(uploadPath, fileName), err => {
-        if (err) console.error(err)
-    })
+function saveCover(album, coverEncoded) {
+    if (coverEncoded == null) return
+    const cover = JSON.parse(coverEncoded)
+    if (cover != null && imageMimeTypes.includes(cover.type)) {
+        album.coverImage = new Buffer.from(cover.data, 'base64')
+        album.coverImageType = cover.type
+    }
 }
 
 module.exports = router
