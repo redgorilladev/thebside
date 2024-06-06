@@ -1,0 +1,10 @@
+<h2><%= album.title %></h2>
+<img width="100" height="150" src="<%= album.coverImagePath %>">
+<div>Artist: <%= album.artist.name %></div>
+<div>Release Date: <%= album.releaseDate.toDateString() %></div>
+<div>Tracks: <%= album.tracks %></div>
+<div>Description: <%= album.description %> </div>
+
+<a href="/albums/<%= album.id %>/edit">Edit</a>
+<%- include('../partials/deleteForm', { url: `/albums/${album.id}` }) %>
+<a href="/artists/<%= album.artist.id %>">View Artist</a>

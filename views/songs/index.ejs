@@ -1,0 +1,29 @@
+<h2>Search Songs</h2>
+<form action="/songs" method="GET">
+    <div>
+        <label>Title</label>
+        <input type="text" name="title" value="<%= searchoptions.title %>">
+        <button type="submit">Search</button>
+    </div>
+</form>
+<div>
+    <% songs.forEach(song => { %>
+    <div>
+        <span><%= song.title %></span>
+        <% albums.forEach(album => { %>
+            <% if (album.id == song.album){ %>
+                
+                <span><%= album.title %></span>
+
+                <% } %>
+            <% }) %>
+        <% artists.forEach(artist => { %>
+            <% if (artist.id == song.artist){ %>
+                        
+                 <span><%= artist.name %></span>
+        
+                <% } %>
+                    <% }) %>    
+    </div>
+    <% }) %>
+</div>
