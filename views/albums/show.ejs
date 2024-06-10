@@ -1,25 +1,42 @@
-<h2 class="page-header"><%= album.title %></h2>
-<img width="100" height="150" src="<%= album.coverImagePath %>">
-<div>Artist: <%= album.artist.name %></div>
-<div>Release Date: <%= album.releaseDate.toDateString() %></div>
-<div>Tracks: <%= album.tracks %></div>
-<div>Description: <%= album.description %> </div>
-<div>Songs: </div>
 <% let counter = 0 %>
-<div>
-    <% songs.forEach(song => { %>
-        <% if (song.album == album.id) { %>
-            <% counter = counter + 1 %>
-            <span><%= counter %></span>
-            <span><%= song.title %></span>
-            <span><%= album.artist.name %></span>
-            <span><%= album.title %></span>
-            <br>
-        <% } %>
-    <% }) %>
+<h2 class="page-header"><%= album.title %></h2>
+<div class="album-details">
+    <div>
+        <img class="album-cover" src="<%= album.coverImagePath %>">
+        <div class="album-details-btn-grid">
+            <a class="btn btn-primary" href="/albums/<%= album.id %>/edit">Edit</a>
+            <%- include('../partials/deleteForm', { url: `/albums/${album.id}` }) %>
+            <a class="btn btn-primary album-details-artist-button" href="/artists/<%= album.artist.id %>">View Artist</a>
+        </div>
+    </div>
+
+    <div class="album-details-grid">
+        <div class="album-details-label">Artist:</div>
+        <div><%= album.artist.name %></div>
+        <div class="album-details-label">Release Date:</div>
+        <div><%= album.releaseDate.toDateString() %></div>
+        <div class="album-details-label">Tracks:</div>
+        <div><%= album.tracks %></div>
+        <div class="album-details-label">Description:</div>
+        <div><%= album.description %> </div>
+        <div class="album-details-label">Songs:</div>
+        <div>
+            <% songs.forEach(song => { %>
+                <% if (song.album == album.id) { %>
+                    <% counter = counter + 1 %>
+                    <span><%= counter %></span>
+                    <span><%= song.title %></span>
+                    <span><%= album.artist.name %></span>
+                    <span><%= album.title %></span>
+                    <br>
+                <% } %>
+            <% }) %>
+    
+        </div>
+    </div>
+    
+    
+
+
 
 </div>
-
-<a href="/albums/<%= album.id %>/edit">Edit</a>
-<%- include('../partials/deleteForm', { url: `/albums/${album.id}` }) %>
-<a href="/artists/<%= album.artist.id %>">View Artist</a>

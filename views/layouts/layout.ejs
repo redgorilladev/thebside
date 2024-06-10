@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/stylesheets/main.css">
+    <link rel="stylesheet" id="main-css" href="/stylesheets/main.css">
     <title>The B Side</title>
 </head>
 <body>
@@ -21,6 +21,8 @@
     <script defer src="https://unpkg.com/filepond-plugin-image-resize/dist/filepond-plugin-image-resize.js"></script>
     <script defer src="https://unpkg.com/filepond/dist/filepond.js"></script>
     <script>
+
+      // fix this to use the variables for width, aspect ratio, and calc height. from main.css
         document.addEventListener('DOMContentLoaded', function() {
               FilePond.registerPlugin(FilePondPluginImagePreview);
               FilePond.registerPlugin(FilePondPluginImageResize);

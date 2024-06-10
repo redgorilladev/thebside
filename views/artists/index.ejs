@@ -12,10 +12,12 @@
 </form>
 <br>
 <% artists.forEach(artist => { %>
-    <div><%= artist.name %></div>
+<div class="artist-row">
+    <div class="artist-name"><%= artist.name %></div>
     <div class="btn-row">
         <a class="btn btn-primary" href="/artists/<%= artist.id %>">View</a>
         <a class="btn btn-primary" href="/artists/<%= artist.id %>/edit">Edit</a>
         <%- include('../partials/deleteForm', { url: `/artists/${artist.id}` }) %>
     </div>
+</div>
 <% }) %>

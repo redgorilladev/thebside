@@ -1,0 +1,60 @@
+:root {
+    --album-cover-width: 200px;
+    --album-cover-width-large: 325px;
+    --album-cover-aspect-ratio: 0.75;
+}
+
+.album-cover {
+    width: var(--album-cover-width);
+    height: calc(var(--album-cover-width) / var(--album-cover-aspect-ratio));
+}
+
+.album-cover-large {
+    --album-cover-width: var(var(--album-cover-width-large));
+}
+
+.album-grid {
+    display: grid;
+    justify-content: center;
+    gap: 2rem;
+    grid-template-columns: repeat(auto-fill, var(--album-cover-width));
+}
+
+.album-grid-large {
+    grid-template-columns: repeat(auto-fill, var(--album-cover-width-large));
+}
+
+.album-details {
+    display: flex;
+}
+
+.album-details-label {
+    font-size: 1.2rem;
+    font-weight: 500;
+    align-self: flex-start;
+}
+
+.album-details-grid {
+    display: grid;
+    align-content: flex-start;
+    align-items: center;
+    gap: 1rem;
+    grid-template-columns: auto auto;
+}
+
+.album-details-btn-grid {
+    display: grid;
+    justify-items: flex-start;
+    align-items: flex-start;
+    align-content: flex-start;
+    grid-template-areas: 
+    "edit delete"
+    "artist artist";
+    gap: .5rem;
+    margin-top: .5rem;
+}
+
+.album-details-artist-button {
+    grid-area: artist;
+    justify-self: stretch;
+}

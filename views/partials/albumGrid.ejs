@@ -1,0 +1,10 @@
+<% albumCoverClass = locals.large ? 'album-cover-large' : '' %>
+<% albumGridClass = locals.large ? 'album-grid-large' : '' %>
+
+<div class="album-grid <%= albumGridClass %>">
+    <% albums.forEach(album => { %>
+        <a href="/albums/<%= album.id %>">
+            <img class="album-cover <%= albumCoverClass %>" src="<%= album.coverImagePath %>">
+        </a>
+        <% }) %>
+</div>

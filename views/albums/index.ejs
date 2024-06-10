@@ -20,10 +20,7 @@
         <button class="btn btn-primary" type="submit">Search</button>
     </div>
 </form>
+<br>
 <div>
-    <% albums.forEach(album => { %>
-        <a href="/albums/<%= album.id %>">
-            <img src="<%= album.coverImagePath %>" height="150" width="100">
-        </a>    
-    <% }) %>
+<%- include('../partials/albumGrid', { albums: albums, large: true}) %>
 </div>
