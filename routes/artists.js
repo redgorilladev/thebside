@@ -28,7 +28,8 @@ router.get('/new', (req, res) =>{
 // create artist route
 router.post('/', async (req, res) => {
     const artist = new Artist({
-        name: req.body.name
+        name: req.body.name,
+        description: req.body.description
     })
     
     try {
@@ -69,6 +70,7 @@ router.put('/:id', async (req, res) => {
     try {
         artist = await Artist.findById(req.params.id)
         artist.name = req.body.name
+        artist.description = req.body.description
         await artist.save()
         res.redirect(`/artists/${artist.id}`)
     } catch {
