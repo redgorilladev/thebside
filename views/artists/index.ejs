@@ -1,4 +1,4 @@
-<h2>Search Artists</h2>
+<h2 class="page-header">Search Artists</h2>
 <form action="/artists" method="GET">
     <label>Name</label>
     <input type="text" name="name" value="<%= searchoptions.name %>">
@@ -7,7 +7,9 @@
 <br>
 <% artists.forEach(artist => { %>
     <div><%= artist.name %></div>
-    <a href="/artists/<%= artist.id %>">View</a>
-    <a href="/artists/<%= artist.id %>/edit">Edit</a>
-    <%- include('../partials/deleteForm', { url: `/artists/${artist.id}` }) %>
+    <div class="btn-row">
+        <a class="btn btn-primary" href="/artists/<%= artist.id %>">View</a>
+        <a class="btn btn-primary" href="/artists/<%= artist.id %>/edit">Edit</a>
+        <%- include('../partials/deleteForm', { url: `/artists/${artist.id}` }) %>
+    </div>
 <% }) %>

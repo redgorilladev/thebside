@@ -1,4 +1,4 @@
-<h2><%= artist.name %></h2>
+<h2 class="page-header"><%= artist.name %></h2>
 <a href="/artists/<%= artist.id %>/edit">Edit</a>
 <%- include('../partials/deleteForm',
              { url: `/artists/${artist.id}`}) %>

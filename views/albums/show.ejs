@@ -1,9 +1,24 @@
-<h2><%= album.title %></h2>
+<h2 class="page-header"><%= album.title %></h2>
 <img width="100" height="150" src="<%= album.coverImagePath %>">
 <div>Artist: <%= album.artist.name %></div>
 <div>Release Date: <%= album.releaseDate.toDateString() %></div>
 <div>Tracks: <%= album.tracks %></div>
 <div>Description: <%= album.description %> </div>
+<div>Songs: </div>
+<% let counter = 0 %>
+<div>
+    <% songs.forEach(song => { %>
+        <% if (song.album == album.id) { %>
+            <% counter = counter + 1 %>
+            <span><%= counter %></span>
+            <span><%= song.title %></span>
+            <span><%= album.artist.name %></span>
+            <span><%= album.title %></span>
+            <br>
+        <% } %>
+    <% }) %>
+
+</div>
 
 <a href="/albums/<%= album.id %>/edit">Edit</a>
 <%- include('../partials/deleteForm', { url: `/albums/${album.id}` }) %>
