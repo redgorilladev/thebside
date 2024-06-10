@@ -1,28 +1,30 @@
-<div>
-    <label>Title</label>
-    <input type="text" name="title" value="<%= song.title %>">
+<div class="form-row">
+    <div class="form-item">
+        <label>Title</label>
+        <input type="text" name="title" value="<%= song.title %>">
+    </div>
 </div>
-<div>
-    <label>Artist</label>
-    <select name="artist" id="artist-select">
-    <% artists.forEach(artist => { %>
-        <% if (artist.id === song.artist) { %>
-            <option selected label="<%= artist.name %>" value="<%= artist.id %>">
-        <% } else { %>
-            <option label="<%= artist.name %>" value="<%= artist.id %>">
-        <% } %>
-    <% }) %>
-    </select>
-</div>
-
-<div>
-    <label>Album</label>
-    <select name="album">
-    <% albums.forEach(album => { %>
-        
-        <option label="<%= album.title %>" value="<%= album.id %>">
-
-    <% }) %>
-    </select>
+<div class="form-row">
+    <div class="form-item">
+        <label>Artist</label>
+        <select name="artist" id="artist-select">
+        <% artists.forEach(artist => { %>
+            <% if (artist.id === song.artist) { %>
+                <option selected label="<%= artist.name %>" value="<%= artist.id %>">
+            <% } else { %>
+                <option label="<%= artist.name %>" value="<%= artist.id %>">
+            <% } %>
+        <% }) %>
+        </select>
+    </div>
+    <div class="form-item">
+        <label>Album</label>
+        <select name="album">
+        <% albums.forEach(album => { %>
+            
+            <option label="<%= album.title %>" value="<%= album.id %>">
     
+        <% }) %>
+        </select>
+    </div>
 </div>
