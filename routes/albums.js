@@ -2,7 +2,6 @@ const express = require('express')
 const router = express.Router()
 const Album = require('../models/album')
 const Artist = require('../models/artist')
-const Song = require('../models/song')
 const imageMimeTypes = ['image/jpeg', 'image/png', 'image/gif']
 
 // all albums route
@@ -63,11 +62,10 @@ async function renderNewPage(res, album, hasError = false) {
 // show albums route
 router.get('/:id', async (req, res) => {
     try {
-        const songs = await Song.find({})
         const album = await Album.findById(req.params.id)
                                  .populate('artist')
                                  .exec()
-        res.render('albums/show', { album: album, songs: songs })
+        res.render('albums/show', { album: album })
     } catch (e) {
         console.log(e)
         res.redirect('/')

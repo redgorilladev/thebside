@@ -17,18 +17,6 @@
         <div><%= album.releaseDate.toDateString() %></div>
         <div class="album-details-label">Description:</div>
         <div><%= album.description %> </div>
-        <div class="album-details-label">Songs:</div>
-        <div>
-            <% songs.forEach(song => { %>
-                <% if (song.album == album.id) { %>>
-                    <span><%= song.title %></span>
-                    <span><%= album.artist.name %></span>
-                    <span><%= album.title %></span>
-                    <br>
-                <% } %>
-            <% }) %>
-    
-        </div>
         <div class="album-details-label">Tracks:</div>
         <div>
         <% album.tracks.forEach(track => { %>
@@ -39,9 +27,4 @@
             <% }) %>
         </div>
     </div>
-    
-    
-
-
-
 </div>

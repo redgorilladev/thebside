@@ -11,7 +11,7 @@ const methodOverride = require('method-override')
 const indexRouter = require('./routes/index')
 const artistRouter = require('./routes/artists')
 const albumRouter = require('./routes/albums')
-const songRouter = require('./routes/songs')
+
 
 app.set('view engine', 'ejs')
 app.set('views', __dirname + '/views')
@@ -32,6 +32,5 @@ db.once('open', () => console.log('Connected to Mongoose'))
 app.use('/', indexRouter)
 app.use('/artists', artistRouter)
 app.use('/albums', albumRouter)
-app.use('/songs', songRouter)
 
 app.listen(process.env.PORT || 3000)
