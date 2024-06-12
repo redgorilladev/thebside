@@ -17,14 +17,24 @@
         <% }) %>
         </select>
     </div>
+    
     <div class="form-item">
         <label>Album</label>
-        <select name="album">
+        <select name="album" id="album-select">
         <% albums.forEach(album => { %>
-            
             <option label="<%= album.title %>" value="<%= album.id %>">
-    
         <% }) %>
         </select>
     </div>
 </div>
+<script>
+    var artistSelect = document.getElementById('artist-select')
+    var albumSelect = document.getElementById('album-select')
+
+    artistSelect.addEventListener('change', myScript)
+
+    function myScript() {
+        console.log('you changed the artist select')
+        console.log(artistSelect.value)
+    }
+</script>

@@ -12,10 +12,10 @@ const albumSchema = new mongoose.Schema({
         type: Date,
         required: true
     },
-    tracks: {
-        type: Number,
+    tracks: [{
+        type: String,
         required: true
-    },
+    }],
     createdAt: {
         type: Date,
         required: true,
