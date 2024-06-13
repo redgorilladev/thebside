@@ -1,5 +1,8 @@
-<h2 class="page-header"><%= artist.name %></h2>
-<img class="artist-cover" src="<%= artist.coverImagePath %>">
+<div class="artist-image-container">
+    <h2 class="artist-name-header"><%= artist.name %></h2>
+    <img class="artist-cover" src="<%= artist.coverImagePath %>">
+</div>
+
 <p><%= artist.description %></p>
 <div class="btn-row">
     <a class="btn btn-primary" href="/artists/<%= artist.id %>/edit">Edit</a>
