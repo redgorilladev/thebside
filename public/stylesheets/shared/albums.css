@@ -1,16 +1,18 @@
 :root {
     --album-cover-width: 200px;
     --album-cover-width-large: 325px;
-    --album-cover-aspect-ratio: 0.75;
+    --album-cover-aspect-ratio: 1;
 }
 
 .album-cover {
     width: var(--album-cover-width);
     height: calc(var(--album-cover-width) / var(--album-cover-aspect-ratio));
+    border-radius: 10px;
 }
 
 .album-cover-large {
-    --album-cover-width: var(var(--album-cover-width-large));
+    --album-cover-width: var(--album-cover-width-large);
+    border-radius: 10px;
 }
 
 .album-grid {

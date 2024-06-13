@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const Artist = require('../models/artist')
 const Album = require('../models/album')
+const imageMimeTypes = ['image/jpeg', 'image/png', 'image/gif']
 
 // all artists route
 router.get('/',  async (req, res) => {
@@ -31,7 +32,8 @@ router.post('/', async (req, res) => {
         name: req.body.name,
         description: req.body.description
     })
-    
+    saveCover(artist, req.body.cover)
+
     try {
         const newArtist = await artist.save()
         res.redirect(`artists/${newArtist.id}`)
@@ -42,7 +44,7 @@ router.post('/', async (req, res) => {
         })
     }
 })
-
+// show artists route
 router.get('/:id', async (req, res) => {
     try {
         const artist = await Artist.findById(req.params.id)
@@ -55,7 +57,7 @@ router.get('/:id', async (req, res) => {
         res.redirect('/')
     }
 })
-
+// edit artist route
 router.get('/:id/edit', async (req, res) => {
     try{
         const artist = await Artist.findById(req.params.id)
@@ -64,13 +66,16 @@ router.get('/:id/edit', async (req, res) => {
         res.redirect('/artists')
     }
 })
-
+// update artist route
 router.put('/:id', async (req, res) => {
     let artist
     try {
         artist = await Artist.findById(req.params.id)
         artist.name = req.body.name
         artist.description = req.body.description
+        if (req.body.cover != null && req.body.cover !== '') {
+            saveCover(artist, req.body.cover)
+        }
         await artist.save()
         res.redirect(`/artists/${artist.id}`)
     } catch {
@@ -84,7 +89,7 @@ router.put('/:id', async (req, res) => {
         }
     }
 })
-
+// delete artist route
 router.delete('/:id', async (req, res) => {
     let artist
     try {
@@ -102,5 +107,14 @@ router.delete('/:id', async (req, res) => {
         }
     }
 })
+
+function saveCover(artist, coverEncoded) {
+    if (coverEncoded == null) return
+    const cover = JSON.parse(coverEncoded)
+    if (cover != null && imageMimeTypes.includes(cover.type)) {
+        artist.coverImage = new Buffer.from(cover.data, 'base64')
+        artist.coverImageType = cover.type
+    }
+}
 
 module.exports = router

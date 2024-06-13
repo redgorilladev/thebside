@@ -1,4 +1,5 @@
 <h2 class="page-header"><%= artist.name %></h2>
+<img class="artist-cover" src="<%= artist.coverImagePath %>">
 <p><%= artist.description %></p>
 <div class="btn-row">
     <a class="btn btn-primary" href="/artists/<%= artist.id %>/edit">Edit</a>
@@ -7,7 +8,7 @@
 </div>
 
 <% if (albumsByArtist.length > 0) { %>
-    <h2 class="page-header">Albums By Artist</h2>
+    <h2 class="page-header">Albums</h2>
     <%- include('../partials/albumGrid', { albums: albumsByArtist}) %>
 <% } %> 
 

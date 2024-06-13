@@ -57,6 +57,7 @@
 }
 
 .form-item textarea{
+    min-height: 150px;
     height: 100%;
     resize: none;
 }

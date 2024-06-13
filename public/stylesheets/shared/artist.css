@@ -1,3 +1,15 @@
+:root {
+    --artist-cover-width: 1000px;
+    --artist-cover-height: 300px;
+}
+
+.artist-cover {
+    width: var(--artist-cover-width);
+    height: var(--artist-cover-height);
+    border-radius: 10px;
+    
+}
+
 .artist-row{
     display: flex;
     justify-content: space-between;
