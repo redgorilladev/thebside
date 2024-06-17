@@ -94,9 +94,9 @@ router.delete('/:id', async (req, res) => {
     let artist
     try {
         artist = await Artist.findById(req.params.id)
-        console.log("before delete" + artist)
+        
         await artist.deleteOne()
-        console.log("after delete" + artist)
+        
         res.redirect('/artists')
     } catch {
         if (artist == null) {
