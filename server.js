@@ -7,16 +7,19 @@ const app = express()
 const expressLayouts = require('express-ejs-layouts')
 const bodyParser = require('body-parser')
 const methodOverride = require('method-override')
+
+
 const passport = require('passport')
 const flash = require('express-flash')
 const session = require('express-session')
 const bcrypt = require('bcrypt')
-const localStrategy = require('passport-local')
-const passportLocalMongoose = require('passport-local-mongoose')
+const LocalStrategy = require('passport-local').Strategy
+
 
 const indexRouter = require('./routes/index')
 const artistRouter = require('./routes/artists')
 const albumRouter = require('./routes/albums')
+
 const User = require('./models/user')
 
 
@@ -27,75 +30,99 @@ app.use(expressLayouts)
 app.use(methodOverride('_method'))
 app.use(express.static('public'))
 app.use(bodyParser.urlencoded({ limit: '10mb', extended: false }))
+
+const MongoStore = require('connect-mongo')
+const mongoose = require('mongoose')
+mongoose.connect(process.env.DATABASE_URL)
+const db = mongoose.connection
+db.on('error', error => console.error(error))
+db.once('open', () => console.log('Connected to Mongoose')) 
+
+// required for login/register functionality
 app.use(flash())
 app.use(session({
-    secret: process.env.SESSION_SECRET,
-    resave: false,
-    saveUninitialized: false
-}))
+     secret: process.env.SESSION_SECRET,
+     resave: false,
+     saveUninitialized: false,
+     store: new MongoStore({ mongoUrl: db.client.s.url})
+ }))
+
+const strategy = new LocalStrategy(User.authenticate())
+passport.use(strategy)
+passport.serializeUser(User.serializeUser())
+passport.deserializeUser(User.deserializeUser())
 app.use(passport.initialize())
 app.use(passport.session())
 
-passport.use(new localStrategy(User.authenticate()))
-passport.serializeUser(User.serializeUser())
-passport.deserializeUser(User.deserializeUser())
-
-const mongoose = require('mongoose')
-mongoose.connect(process.env.DATABASE_URL)
-
-const db = mongoose.connection
-db.on('error', error => console.error(error))
-db.once('open', () => console.log('Connected to Mongoose'))    
+   
 
 
 app.use('/', indexRouter)
 app.use('/artists', artistRouter)
 app.use('/albums', albumRouter)
 
+
+
 app.get('/register', (req, res) => {
-    res.render('register')
-})
+     res.render('register')
+ })
 
-app.post('/register', async (req, res) =>{
-    try {
-        const hashedPassword = await bcrypt.hash(req.body.password, 10)
-        try{
-            const user =  await User.create({
-                name: req.body.name,
-                username: req.body.username,
-                password: hashedPassword
-            })
-            console.log(user)
-            res.redirect('/login')
-        } catch (e) {
-            console.log(e, 'error creating user')
-            res.redirect('/register')
+app.post('/register',  (req, res) =>{
+    User.register(
+        new User({
+            name: req.body.name,
+            username: req.body.username
+        }), req.body.password, function (err, msg) {
+            if (err) {
+                res.send(err)
+            } else {
+                console.log('register successful?')
+                res.redirect('/login')
+            }
         }
-    } catch (error) {
-        console.log(error, 'error hashing password')
-        res.redirect('/register')
-    }
-    
+    ) 
+       
 })
 
-app.get('/login', (req, res)=> {
+app.get('/login', (req, res) => {
     res.render('login')
 })
 
-app.post('/login', async (req, res) => {
-    try {
-        const user = await User.findOne({username: req.body.username})
-        if (user) {
-          if  (await bcrypt.compare(req.body.password, user.password)){
-                res.render('userpage')
-          } else {
-            res.status(400).json({error: 'passwords dont match'})
-          }
-        } else {
-            res.status(400).json({error: 'user doesnt exist'})
+app.post('/login', passport.authenticate('local', {
+    failureRedirect: '/login-failure',
+    successRedirect: '/login-success'
+}), (err, req, res, next) => {
+    if (err) next(err)
+})
+
+app.get('/login-success', (req, res, next) => {
+    console.log(req.session)
+    res.render('login-success')
+})
+
+app.get('/login-failure', (req, res, next) => {
+    console.log(req.session)
+    res.render('login-failure')
+})
+
+app.get('/logout', (req, res, next) => {
+    req.logout((err) =>{
+        if (err){
+            return next(err)
         }
-    } catch (error) {
-        res.status(400).json({error})
+        console.log('logged out')
+        res.redirect('/')
+    })
+})
+
+app.get('/profile', (req, res) => {
+    console.log(req.session)
+    if (req.isAuthenticated()) {
+        console.log('authenticated')
+        res.render('profile')
+    } else {
+        console.log('not authenticated')
+        res.redirect('login')
     }
 })
 
