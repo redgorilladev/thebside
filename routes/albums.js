@@ -4,6 +4,7 @@ const Album = require('../models/album')
 const Artist = require('../models/artist')
 const imageMimeTypes = ['image/jpeg', 'image/png', 'image/gif']
 
+
 // all albums route
 router.get('/',  async (req, res) => {
     let query = Album.find()

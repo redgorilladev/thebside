@@ -33,9 +33,50 @@
     text-decoration: none;
     color: var(--color-text-light);
     font-weight: var(--nav-link-font-weight);
-    padding: 1rem;
+    padding: 0 .5rem;
+    text-wrap: nowrap;
+}
+
+.nav-link {
+    border: none;
+    background: none;
+    text-decoration: none;
+    color: var(--color-text-light);
+    font-weight: var(--nav-link-font-weight);
+    font-family: inherit;
+    padding: 0 1rem;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.nav-link:hover, .dropdown.active {
+    color: white;
 }
 
 .header-nav li a:hover, .header-title:hover {
     color: white;
+}
+
+.dropdown {
+    position: relative;
+}
+
+.dropdown-menu {
+    position: absolute;
+    left: 0;
+    top: calc(100% + .25rem);
+    background-color: black;
+    padding: .5rem;
+    border-radius: .25rem;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .1);
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-10px);
+    transition: opacity 150ms ease-in-out, transform 150ms ease-in-out;
+}
+
+.dropdown.active > button + .dropdown-menu {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
 }

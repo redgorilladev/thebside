@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const Album = require('../models/album')
 
+
 router.get('/',  async (req, res) =>{
     let albums
     try {

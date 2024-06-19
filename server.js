@@ -7,6 +7,7 @@ const app = express()
 const expressLayouts = require('express-ejs-layouts')
 const bodyParser = require('body-parser')
 const methodOverride = require('method-override')
+const path = require('path')
 
 
 const passport = require('passport')
@@ -28,7 +29,7 @@ app.set('views', __dirname + '/views')
 app.set('layout', 'layouts/layout')
 app.use(expressLayouts)
 app.use(methodOverride('_method'))
-app.use(express.static('public'))
+app.use(express.static(__dirname + '/public'))
 app.use(bodyParser.urlencoded({ limit: '10mb', extended: false }))
 
 const MongoStore = require('connect-mongo')
@@ -90,7 +91,7 @@ app.get('/login', (req, res) => {
 
 app.post('/login', passport.authenticate('local', {
     failureRedirect: '/login-failure',
-    successRedirect: '/login-success'
+    successRedirect: '/profile'
 }), (err, req, res, next) => {
     if (err) next(err)
 })
@@ -115,11 +116,12 @@ app.get('/logout', (req, res, next) => {
     })
 })
 
-app.get('/profile', (req, res) => {
-    console.log(req.session)
+app.get('/profile', async (req, res) => {
     if (req.isAuthenticated()) {
+        console.log(req.session)
+        console.log(req.user.username)
         console.log('authenticated')
-        res.render('profile')
+        res.render('profile', {username: req.user.username})
     } else {
         console.log('not authenticated')
         res.redirect('login')

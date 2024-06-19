@@ -2,10 +2,29 @@
     <nav class="header-nav">
         <a class="header-title" href="/">The B Side</a>
         <ul>
-            <li><a href="/artists">Artists</a></li>
-            <li><a href="/artists/new">Add Artist</a></li>
-            <li><a href="/albums">Albums</a></li>
-            <li><a href="/albums/new">Add Album</a></li>
+            <div class="dropdown" data-dropdown>
+                <button class="nav-link" data-dropdown-button>Artists</button>
+                <div class="dropdown-menu">
+                    <li><a href="/artists">Artists</a></li>
+                    <li><a href="/artists/new">Add Artist</a></li>
+                </div>
+            </div>
+            <div class="dropdown" data-dropdown>
+                <button class="nav-link" data-dropdown-button>Albums</button>
+                <div class="dropdown-menu">
+                    <li><a href="/albums">Albums</a></li>
+                    <li><a href="/albums/new">Add Album</a></li>
+                </div>
+            </div>
+            <div class="dropdown" data-dropdown>
+                <button class="nav-link" data-dropdown-button>Account</button>
+                <div class="dropdown-menu">
+                    <li><a href="/login">Login</a></li>
+                    <li><a href="/register">Register</a></li>
+                    <li><a href="/logout">Logout</a></li>
+                    <li><a href="/profile">Profile</a></li>
+                </div>
+            </div>
         </ul>
     </nav>
 </header>
