@@ -120,6 +120,7 @@ app.get('/profile', async (req, res) => {
     if (req.isAuthenticated()) {
         console.log(req.session)
         console.log(req.user.username)
+        console.log(req.user.id)
         console.log('authenticated')
         res.render('profile', {username: req.user.username})
     } else {

@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const Album = require('../models/album')
+const Comment = require('../models/comments')
 const Artist = require('../models/artist')
 const imageMimeTypes = ['image/jpeg', 'image/png', 'image/gif']
 
@@ -63,10 +64,12 @@ async function renderNewPage(res, album, hasError = false) {
 // show albums route
 router.get('/:id', async (req, res) => {
     try {
-        const album = await Album.findById(req.params.id)
-                                 .populate('artist')
-                                 .exec()
-        res.render('albums/show', { album: album })
+        const album = await Album.findById(req.params.id).populate('artist').exec()
+
+        const comments = await Comment.find().populate('user').exec()
+        console.log(comments)
+
+        res.render('albums/show', { album: album, comments: comments })
     } catch (e) {
         console.log(e)
         res.redirect('/')
@@ -80,6 +83,24 @@ router.get('/:id/edit', async (req, res) =>{
         renderEditPage(res, album)
     } catch {
         res.redirect('/')
+    }
+})
+
+// post albums comments route
+router.post('/:id', async (req, res) => {
+    let album
+    try {
+        album = await Album.findById(req.params.id)
+        const comment = new Comment({
+            user: req.user.id,
+            commentContent: req.body.comment,
+            album: album
+        })
+        await comment.save()
+        
+        res.redirect(`${album.id}`)
+    } catch (error) {
+        renderNewPage(res, album, true)
     }
 })
 
