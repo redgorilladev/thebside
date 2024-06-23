@@ -41,7 +41,7 @@ router.post('/', async (req, res) => {
         title: req.body.title,
         artist: req.body.artist,
         releaseDate: new Date(req.body.releaseDate),
-        tracks: req.body.tracks.split("+"),
+        tracks: req.body.tracks.split(","),
         description: req.body.description
     })
     saveCover(album, req.body.cover)
@@ -100,7 +100,7 @@ router.post('/:id', async (req, res) => {
         
         res.redirect(`${album.id}`)
     } catch (error) {
-        renderNewPage(res, album, true)
+        res.redirect('/albums')
     }
 })
 
@@ -113,7 +113,7 @@ router.put('/:id', async (req, res) =>{
         album.title = req.body.title
         album.artist = req.body.artist
         album.releaseDate = new Date(req.body.releaseDate)
-        album.tracks = req.body.tracks.split("+")
+        album.tracks = req.body.tracks.split(",")
         album.description = req.body.description
         if (req.body.cover != null && req.body.cover !== '') {
             saveCover(album, req.body.cover)

@@ -3,7 +3,7 @@
 <h2 class="page-header"><%= album.title %></h2>
 <div class="album-details">
     <div>
-        <img class="album-cover" src="<%= album.coverImagePath %>">
+        <img class="album-cover-showpage" src="<%= album.coverImagePath %>">
         <div class="album-details-btn-grid">
             <a class="btn btn-primary" href="/albums/<%= album.id %>/edit">Edit</a>
             <%- include('../partials/deleteForm', { url: `/albums/${album.id}` }) %>
@@ -31,14 +31,16 @@
 </div>
 <div class="comments-section">
     <% comments.forEach(comment => { %>
-        <% commentCounter = commentCounter + 1 %>
+        <% if (comment.album == album.id) { %>
+            <% commentCounter = commentCounter + 1 %>
+        <% } %>
     <% }) %>
     <h2 class="page-header"><%= commentCounter %> Comments</h2>
 
     <form action="/albums/<%= album.id %>" method="POST">
         <div class="form-row">
             <div class="form-item">
-                <input type="text" name="comment" placeholder="add a comment...">
+                <input type="text" name="comment"  placeholder="add a comment...">
             </div>
         </div>
         <div class="form-row form-row-end btn-row">
@@ -48,9 +50,11 @@
     </div>
     <div class="comment-data">
         <% comments.forEach(comment => { %>
-            <span><%= comment.user.username %></span>
-            <span><%= comment.createdAt.toDateString() %></span>
-            <p><%= comment.commentContent %></p>
+            <% if (comment.album == album.id) { %>
+            <span class="comment-metadata"><%= comment.user.username %></span>
+            <span class="comment-metadata"><%= comment.createdAt.toDateString() %></span>
+            <p class="comment-content"><%= comment.commentContent %></p>
+            <% } %>
         <% }) %>
     </div>
 </div>

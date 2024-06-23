@@ -1,0 +1,9 @@
+.comment-metadata{
+    font-size: .6rem;
+    color: hsl(var(--color-base-hue), 100%, 95%)
+
+}
+
+.comment-content{
+    margin-top: 0;
+}

@@ -8,17 +8,26 @@
     width: var(--album-cover-width);
     height: calc(var(--album-cover-width) / var(--album-cover-aspect-ratio));
     border-radius: 10px;
-    transition: 200ms transform ease-in-out;
+    opacity: .8;
+    transition: 200ms transform ease-in-out, 200ms opacity ease-in-out;
+}
+
+.album-cover-showpage {
+    width: var(--album-cover-width);
+    height: calc(var(--album-cover-width) / var(--album-cover-aspect-ratio));
+    border-radius: 10px;
 }
 
 .album-cover-large {
     --album-cover-width: var(--album-cover-width-large);
     border-radius: 10px;
-    transition: 200ms transform ease-in-out;
+    opacity: .8;
+    transition: 200ms transform ease-in-out, 200ms opacity ease-in-out;
 }
 
 .album-cover:hover {
     transform: scale(1.025);
+    opacity: 1;
 }
 
 .album-grid {
