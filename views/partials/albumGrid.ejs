@@ -3,7 +3,7 @@
 
 <div class="album-grid <%= albumGridClass %>">
     <% albums.forEach(album => { %>
-        <a href="/albums/<%= album.id %>">
+        <a href="/albums/<%= album.id %>" title="<%= album.title %>">
             <img class="album-cover <%= albumCoverClass %>" src="<%= album.coverImagePath %>">
         </a>
         <% }) %>

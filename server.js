@@ -65,7 +65,7 @@ app.use('/albums', albumRouter)
 
 
 app.get('/register', (req, res) => {
-     res.render('register')
+     res.render('register', { loggedIn: false})
  })
 
 app.post('/register',  (req, res) =>{
@@ -86,7 +86,7 @@ app.post('/register',  (req, res) =>{
 })
 
 app.get('/login', (req, res) => {
-    res.render('login')
+    res.render('login', { loggedIn: false})
 })
 
 app.post('/login', passport.authenticate('local', {
@@ -122,7 +122,7 @@ app.get('/profile', async (req, res) => {
         console.log(req.user.username)
         console.log(req.user.id)
         console.log('authenticated')
-        res.render('profile', {username: req.user.username})
+        res.render('profile', {username: req.user.username, loggedIn: true})
     } else {
         console.log('not authenticated')
         res.redirect('login')

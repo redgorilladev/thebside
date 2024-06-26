@@ -89,19 +89,38 @@ router.get('/:id/edit', async (req, res) =>{
 // post albums comments route
 router.post('/:id', async (req, res) => {
     let album
-    try {
-        album = await Album.findById(req.params.id)
-        const comment = new Comment({
-            user: req.user.id,
-            commentContent: req.body.comment,
-            album: album
-        })
-        await comment.save()
-        
-        res.redirect(`${album.id}`)
-    } catch (error) {
-        res.redirect('/albums')
+    album = await Album.findById(req.params.id)
+    const comments = await Comment.find().populate('user').exec()
+
+    if (req.isAuthenticated()){
+        try {
+            const comment = new Comment({
+                user: req.user.id,
+                commentContent: req.body.comment,
+                album: album
+            })
+            await comment.save()
+            
+            res.redirect(`${album.id}`)
+        } catch (error) {
+            console.log(error)
+                if (album != null) {
+                    res.render ('albums/show', {
+                        album: album,
+                        comments: comments,
+                        errorMessage: 'Error Posting Comment'
+                    })
+            }
+        }
+    } else {
+        if (album != null) {
+            res.render ('albums/show', {
+                album: album,
+                comments: comments,
+                errorMessage: 'Must Be Logged In To Comment'
+            })
     }
+    } 
 })
 
 // update album route
