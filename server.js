@@ -96,14 +96,14 @@ app.post('/login', passport.authenticate('local', {
     if (err) next(err)
 })
 
-app.get('/login-success', (req, res, next) => {
-    console.log(req.session)
-    res.render('login-success')
-})
+// app.get('/login-success', (req, res, next) => {
+//     console.log(req.session)
+//     res.render('login-success')
+// })
 
 app.get('/login-failure', (req, res, next) => {
     console.log(req.session)
-    res.render('login-failure')
+    res.render('login-failure', { loggedIn: false})
 })
 
 app.get('/logout', (req, res, next) => {

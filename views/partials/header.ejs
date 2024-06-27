@@ -22,7 +22,7 @@
                     <li><a href="/login">Login</a></li>
                     <li><a href="/register">Register</a></li>
 
-                    <% if (loggedIn) { %>
+                    <% if (typeof loggedIn !== 'undefined' && loggedIn == true) { %>
                         <li><a href="/logout">Logout</a></li>
                         <li><a href="/profile">Profile</a></li>
                     <% } %>

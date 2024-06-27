@@ -20,10 +20,21 @@ router.get('/',  async (req, res) => {
     }
     try {
         const albums = await query.exec()
-        res.render('albums/index', {
-            albums: albums,
-            searchoptions: req.query
-        })
+        if (req.isAuthenticated()){
+            res.render('albums/index', {
+                albums: albums,
+                searchoptions: req.query,
+                loggedIn: true
+            })
+            
+        } else {
+            res.render('albums/index', {
+                albums: albums,
+                searchoptions: req.query,
+                loggedIn: false
+            })
+            
+        }
     } catch {
         res.redirect('/')
     }
@@ -69,7 +80,12 @@ router.get('/:id', async (req, res) => {
         const comments = await Comment.find().populate('user').exec()
         console.log(comments)
 
-        res.render('albums/show', { album: album, comments: comments })
+        if (req.isAuthenticated()){
+            res.render('albums/show', { album: album, comments: comments, loggedIn: true })
+        } else {
+            res.render('albums/show', { album: album, comments: comments, loggedIn: false })
+        }
+
     } catch (e) {
         console.log(e)
         res.redirect('/')
@@ -108,18 +124,20 @@ router.post('/:id', async (req, res) => {
                     res.render ('albums/show', {
                         album: album,
                         comments: comments,
+                        loggedIn: true,
                         errorMessage: 'Error Posting Comment'
                     })
             }
         }
     } else {
-        if (album != null) {
-            res.render ('albums/show', {
-                album: album,
-                comments: comments,
-                errorMessage: 'Must Be Logged In To Comment'
-            })
-    }
+            if (album != null) {
+                res.render ('albums/show', {
+                    album: album,
+                    comments: comments,
+                    loggedIn: false,
+                    errorMessage: 'Must Be Logged In To Comment'
+                })
+        }
     } 
 })
 
@@ -151,20 +169,30 @@ router.put('/:id', async (req, res) =>{
 // delete album page
 router.delete('/:id', async (req, res) => {
     let album
-    try {
-        album = await Album.findById(req.params.id)
-        await album.deleteOne()
-        res.redirect('/albums')
-    } catch {
-        if (album != null) {
-            res.render ('albums/show', {
-                album: album,
-                errorMessage: 'Could Not Remove Album'
-            })
-        } else {
-            res.redirect('/')
+    album = await Album.findById(req.params.id)
+    const comments = await Comment.find().populate('user').exec()
+    if(req.isAuthenticated()){
+        try {
+            await album.deleteOne()
+            res.redirect('/albums')
+        } catch {
+            if (album != null) {
+                res.render ('albums/show', {
+                    album: album,
+                    comments: comments,
+                    loggedIn: true,
+                    errorMessage: 'Could Not Remove Album'
+                })
+            } else {
+                res.redirect('/')
+            }
         }
     }
+    res.render ('albums/show', {
+        album: album,
+        comments: comments,
+        errorMessage: 'Must Be Admin To Delete Album'
+    })
 })
 
 async function renderEditPage(res, album, hasError = false) {
@@ -178,16 +206,18 @@ async function renderFormPage(res, album, form, hasError = false) {
             artists: artists,
             album: album
         }
-        if (hasError) {
-            if (form === 'edit'){
-                params.errorMessage = 'Error Updating Album'
-            } else {
-                params.errorMessage = 'Error Creating Album'
+            if (hasError) {
+                if (form === 'edit'){
+                    params.errorMessage = 'Error Updating Album'
+                } else {
+                    params.errorMessage = 'Error Creating Album'
+                }
             }
-        }
-        res.render(`albums/${form}`, params)
+            // no auth check or loggedIn true passed here as the edit function should be only available to authed admins
+            res.render(`albums/${form}`, params)        
 
-    } catch {
+    } catch (e) {
+        console.log(e)
         res.redirect('/albums')
     }
 }

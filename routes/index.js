@@ -10,8 +10,10 @@ router.get('/', async (req, res) =>{
         albums = []
     }
     if (req.isAuthenticated()){
+        console.log('logged in')
         res.render('index', { albums: albums, loggedIn: true })
     } else {
+        console.log('logged out')
         res.render('index', { albums: albums, loggedIn: false })
     }
 })
