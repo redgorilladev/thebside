@@ -1,0 +1,49 @@
+easy
+-style the songs section in album-show (wait until needed e.g. for voting)
+-add featured artist/album to homepage above recently added?
+-style the comments section
+-change add/edit forms to be responsive for small screen sizes
+
+
+medium
+-add comments section to artist page
+-add a reviews section to album pages
+-add profile images to users and to comments section
+-add media query for mobile layout
+
+hard
+-restrict user access based on their account status e.g. admin (view/edit/create/delete), user/no account (view only)
+    - intial setup on index, register, login, profile done. show/hide the account menu buttons based on log in status
+    
+-add voting/ranking system for albums/tracks/artists
+-add like/dislike functionality to comments section
+-add content to profile page (liked albums/artists, favourite song, etc.)
+
+
+bugs/problems
+-when opening the album edit page, the artist field is defaulted to the first artist in the select
+
+
+Version Goals:
+
+publish ver1 when:
+	-all user auth/access is complete
+	-responsive views for desktop/mobile
+	-featured album/artist homepage
+	-all bugs fixed
+
+ver2 goals:
+	-profile images
+	-profile page content
+	-reviews
+	
+ver3 goals:
+	-voting system for albums/tracks/artist
+	-ranking system for either B Sides only or all tracks
+	-Top 10 Ranking page
+	-comment interaction
+
+
+
+
+
